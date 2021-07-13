@@ -4,13 +4,17 @@ In a production environment, you would want to
 put your configuration details in a separate file
 with restrictive permissions that is not accessible from version control
 */
-
+const dotenv = require('dotenv')
+dotenv.config()
+const buf = Buffer.from('BASIC=basic')
+const config = dotenv.parse(buf) // will return an object
+console.log(typeof config, config) // object { BASIC : 'basic' }
 const Pool = require('pg').Pool
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'IssaDB',
-  password: 'bigdickboys',
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB,
+  password: process.env.DB_PASS,
   port: 5432,
 })
 
