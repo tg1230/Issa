@@ -2,6 +2,17 @@
   text-align: center;
 }
 
+.postDisplay {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+}
+
+.postCard {
+  padding: 20px;
+}
+
 .post {
   text-align: center;
   padding: 20px;

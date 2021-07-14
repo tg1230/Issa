@@ -21,15 +21,16 @@ const pool = new Pool({
 });
 
 const queries = {
-  Post: prep("INSERT INTO public.posts(post, date) VALUES (${post}, ${date})"),
+  post: prep("INSERT INTO public.posts(text, date) VALUES (${text}, ${date})"),
+  getAll: prep("SELECT * FROM public.posts"),
 };
 
 const postPost = (request, response) => {
   const insertion = {
-       post : request.body.post,
-       date: request.body.date
+       text : request.body.text,
+       date : request.body.date
     }
-    pool.query(queries.Post(insertion), (error, results) => {
+    pool.query(queries.post(insertion), (error, results) => {
       if (error) {
         throw error
       }
@@ -37,13 +38,16 @@ const postPost = (request, response) => {
     })
 };
 
-const getPost = (request, response) => {
-  console.log("get post called");
-  response.status(200);
-  response.json({ info: 'getPost' })
+const getAllPosts = (request, response) => {
+  pool.query(queries.getAll(), (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
 };
 
 module.exports = {
   postPost,
-  getPost,
+  getAllPosts,
 };
