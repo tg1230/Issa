@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ContentInput from "./ContentInput";
 import SimpleCard from "./SimpleCard";
 
 
@@ -45,7 +46,7 @@ export default function ContentDisplay() {
 
   useEffect(() => {
     getAllPosts();
-  },[]);
+  }, [])
 
   const setupSimpleCard = ({id, text, date, likes}) => {
     return (
@@ -61,8 +62,11 @@ export default function ContentDisplay() {
   }
 
     return (
-        <div className="postDisplay">
-          {posts.map(post => setupSimpleCard(post))}
+        <div>
+            <ContentInput updatePostDisplay={getAllPosts}/>
+            <div className="postDisplay">
+            {posts.map(post => setupSimpleCard(post))}
+            </div>
         </div>
       );
 }

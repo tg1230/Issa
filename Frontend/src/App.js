@@ -8,7 +8,6 @@ function App() {
     <div className="App">
       <h1>Daniel is a</h1>
      <ContentDisplay />
-     <ContentInput />
     </div>
   );
 }
