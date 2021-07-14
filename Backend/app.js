@@ -20,5 +20,5 @@ app.listen(port, () => {
 
 app.post('/post', db.postPost);
 
-app.get('/get', db.getPost);
+app.get('/getall', db.getAllPosts);
 
