@@ -29,8 +29,7 @@ const postPost = (request, response) => {
        post : request.body.post,
        date: request.body.date
     }
-    var item = prep("INSERT INTO public.posts(post, date) VALUES (${post}, ${date})")
-    pool.query(item(insertion), (error, results) => {
+    pool.query(queries.Post(insertion), (error, results) => {
       if (error) {
         throw error
       }
