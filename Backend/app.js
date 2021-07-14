@@ -2,7 +2,10 @@ const hostname = '127.0.0.1';
 const port = 3000;
 
 const express = require("express");
-const app = express();
+var cors = require('cors');
+var app = express();
+
+app.use(cors());
 const db = require('./queries')
 
 app.use(express.json());
@@ -15,4 +18,7 @@ app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 });
 
-app.get('/users', db.getUsers);
+app.post('/post', db.postPost);
+
+app.get('/get', db.getPost);
+

@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 
 function App() {
-  const [post, setpost] = useState();
+  const [post, setpost] = useState("");
 
   const handleChange = (event) => {
     setpost(event.target.value);
@@ -18,12 +18,18 @@ function App() {
       post: post,
       date: date,
     };
+    console.log("front: ", requestBody.date, requestBody.post)
     const requestOptions = {
       method: "POST",
-      requestBody: requestBody,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify(requestBody),
     };
+    // cors error hidden by promise?
     const postPromise = new Promise((resolve, reject) => {
-      fetch("", requestOptions)
+      fetch("http://localhost:3000/post", requestOptions)
         .then((response) => {
           if (response.ok) {
             // gets run if request succeeds
@@ -57,7 +63,6 @@ function App() {
         label="Multiline"
         multiline
         rows={4}
-        defaultValue="Default Value"
         variant="outlined"
         onChange={handleChange}
       />
