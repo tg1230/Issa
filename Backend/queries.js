@@ -23,31 +23,55 @@ const pool = new Pool({
 const queries = {
   post: prep("INSERT INTO public.posts(text, date) VALUES (${text}, ${date})"),
   getAll: prep("SELECT * FROM public.posts"),
+  incrementLike: prep(
+    "UPDATE public.posts SET likes = likes + 1 WHERE id = ${id}"
+  ),
+  decrementLike: prep(
+    "UPDATE public.posts SET likes = likes - 1 WHERE id = ${id}"
+  ),
 };
 
 const postPost = (request, response) => {
   const insertion = {
-       text : request.body.text,
-       date : request.body.date
+    text: request.body.text,
+    date: request.body.date,
+  };
+  pool.query(queries.post(insertion), (error, results) => {
+    if (error) {
+      throw error;
     }
-    pool.query(queries.post(insertion), (error, results) => {
-      if (error) {
-        throw error
-      }
-      response.status(200).json(results.rows)
-    })
+    response.status(200).json(results.rows);
+  });
 };
 
 const getAllPosts = (request, response) => {
   pool.query(queries.getAll(), (error, results) => {
     if (error) {
-      throw error
+      throw error;
     }
-    response.status(200).json(results.rows)
-  })
+    response.status(200).json(results.rows);
+  });
+};
+
+const updateLike = (request, response) => {
+  console.log(request.body.liked)
+  const insertion = {id :  request.body.id}
+  pool.query(
+    request.body.liked === true
+    ? queries.incrementLike(insertion)
+    : queries.decrementLike(insertion),
+    (error, results) => {
+      if (error) {
+        response.status(400).json("Error could not insert")
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
 };
 
 module.exports = {
   postPost,
   getAllPosts,
+  updateLike,
 };

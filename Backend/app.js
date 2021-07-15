@@ -22,3 +22,5 @@ app.post('/post', db.postPost);
 
 app.get('/getall', db.getAllPosts);
 
+app.put('/updatelike', db.updateLike);
+
